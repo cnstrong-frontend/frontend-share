@@ -9,3 +9,6 @@
 ## 相关工具
 - Marp: Markdown Presentation Writer
 > 分享文档直接用 Markdown 书写后，使用 Marp 工具生成分享的 pdf 文件
+
+## 分享内容
+- [如何对现有ERP系统进行消息提醒增强](./reference/add-notification-feature-to-ERP-system.pdf)
