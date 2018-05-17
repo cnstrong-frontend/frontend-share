@@ -314,7 +314,7 @@ a: {
 
 ## 基于github和github gist共同优化
 - [施强前端团队技术分享仓库@github](https://github.com/cnstrong-frontend/frontend-share)
-- [add-notification-feature-to-ERP-system@gist](https://gist.github.com/Snger/5bdb55ad7088a9ea229cc87a58699580)
+- [user-script-for-tampermonkey.js@github](https://github.com/cnstrong-frontend/frontend-share/blob/master/src/add-notification-feature-to-ERP-system/user-script-for-tampermonkey.js)
 
 ---
 
