@@ -5,7 +5,7 @@
 // @description  施强ERP顶部信息更新提醒
 // @description  todo:请自行在 @match 字段修改匹配的ERP路径
 // @description  todo:获取未读的邮件数量请修改username
-// @description  todo:notificationDetails 中的 image 字段请补全域名
+// @description  todo:请把所有链接补全公司域名，包括notificationDetails 中的 image 字段（api接口可以不用）
 // @author       Snger
 // @match        http://erp
 // @grant        GM_notification
