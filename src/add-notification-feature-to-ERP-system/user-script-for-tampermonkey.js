@@ -1,13 +1,12 @@
 // ==UserScript==
 // @name         add-notification-feature-to-ERP-system
 // @namespace    http://leke.cn/
-// @version      0.9
+// @version      1.0
 // @description  施强ERP顶部信息更新提醒
-// @description  todo:请自行在 @match 字段修改匹配的ERP路径
-// @description  todo:获取未读的邮件数量请修改username
-// @description  todo:请把所有链接补全公司域名，包括notificationDetails 中的 image 字段（api接口可以不用）
+// @description  todo: 请用ERP路径url 全局替换 {{domain}}
+// @description  todo: 获取未读的邮件数量请修改 {{username}}
 // @author       Snger
-// @match        http://erp
+// @match        {{domain}}
 // @grant        GM_notification
 // @grant        GM_openInTab
 // @grant        $
@@ -152,12 +151,12 @@
         if (n >= tipTopList.length) { return; }
         var data = {};
         if(tipTop.objId==='h_email_count'){
-            data = {fullName:"username"};
+            data = {fullName:"{{username}}"};
         }
         $.post(tipTop.url, data, function (d) {
             if(d=="nosession") {
                 alert("请重新登录");
-                window.location.href="/Login/Login";
+                window.location.href="{{domain}}/Login/Login";
             }else{
                 if(d=="0"){
                     $("#" + tipTop.objId).parent().removeAttr("class");
@@ -180,20 +179,20 @@
         var notificationSetting = {
             'h_todo_count': {
                 text: '待办事项',
-                link: '/PC/Todo/TodoList'
+                link: '{{domain}}/PC/Todo/TodoList'
             },
             'h_remind_count': {
                 text: '提醒',
-                link: '/PC/Remind/RemindList'
+                link: '{{domain}}/PC/Remind/RemindList'
             },
             'h_email_count': {
                 text: '邮件',
-                link: '/ServiceWebMail/WebMail/SSOLogin',
+                link: '{{domain}}/ServiceWebMail/WebMail/SSOLogin',
                 newTab: true
             },
             'h_Subordinatetodo_count': {
                 text: '下属过期待办',
-                link: '/PC/Todo/SubordinateTodoList'
+                link: '{{domain}}/PC/Todo/SubordinateTodoList'
             },
             'h_verify_count': {
                 text: '待提交的档案审批',
@@ -207,7 +206,7 @@
         var notificationDetails = {
             text: '有未读'+ notificationSetting[typeId].text +'，请查收',
             title: '施强ERP消息提醒',
-            image: '/Content/Img/logo.png',
+            image: '{{domain}}/Content/Img/logo.png',
             highlight: false,
             timeout: 3000,
             ondone: null,
