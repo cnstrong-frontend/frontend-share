@@ -150,7 +150,7 @@ queryDB();
 // @version      0.8
 // @description  try to take over the world!
 // @author       toushou
-// @match        http://erp.16888.hk/Main/Main
+// @match        {{erp url}}
 // @grant        GM_notification
 // ==/UserScript==
 
@@ -189,7 +189,7 @@ function notifyIt(typeId){
     var notificationDetails = {
         text: '施强ERP有未读消息，请查收',
         title: '施强ERP消息提醒',
-        image: 'http://erp.16888.hk/Content/Img/logo.png',
+        image: '{{erp url}}/Content/Img/logo.png',
         highlight: false,
         timeout: 3000,
         ondone: null,
