@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>call apply bind</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+        .wrap {
+            width: 100%;
+            height: 100%;
+            background: #ececec;
+            color: black;
+            font-family: "微软雅黑";
+            text-align: center;
+            padding-top: 30px;
+        }
+        h1 {
+            font-size: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <h1>call、apply和bind的三者辩分</h1>
+    </div>
+</body>
+<script>
+    window.onload = function () {
+        
+        // 例1 call的作用
+        function speak (food) {
+            console.log("我是" + this.name + "，我喜欢吃" + food + "，" + this.language )
+        }
+        
+        var dog = {"name": "小狗", "language": "汪"}
+        var cat = {"name": "小猫","language": "喵"}
+        var pig = {"name": "小猪","language": "哼"}
+
+        speak.call()
+        speak.call(dog, "肉")
+        speak.call(cat, "鱼")
+        speak.call(pig, "苹果")
+
+        console.log("~~~~~~~~~~~~~~~华丽的分割线~~~~~~~~~~~~~")
+
+        //  例2 apply的作用
+        window.number = "one"
+        document.number = "two"
+        let number2 = {number: "three"}
+        
+        function testApply () {
+            console.log(this.number)
+        }
+        testApply.apply()
+        testApply.apply(window)
+        testApply.apply(document)
+        testApply.apply(this)
+        testApply.apply(number2)
+        console.log("~~~~~~~~~~~~~~~华丽的分割线~~~~~~~~~~~~~")
+        
+
+        //  例3 apply和call的区别
+        function add (c, d) {
+            console.log(this.a + this.b + c + d)
+        }
+        var diff = {a: 1, b: 2}
+        add.call(diff, 3, 4)
+        add.apply(diff, [3, 4])
+        console.log("~~~~~~~~~~~~~~~华丽的分割线~~~~~~~~~~~~~")
+        
+        //  例4 bind
+        window.bindNum = 666
+        function testBind () {
+            this.bindNum = 1
+
+            this.getNum = function () {
+                console.log(this.bindNum)
+            }
+
+            this.getNum1 = function () {
+                setTimeout(function () {
+                    console.log(this.bindNum)
+                }, 500)
+            }
+            
+            this.getNum2 = function () {
+                setTimeout(function () {
+                    console.log(this.bindNum)
+                }.bind(this), 500)
+            }
+        }
+        var testBind = new testBind
+        testBind.getNum()
+        testBind.getNum1()
+        testBind.getNum2()
+    }
+</script>
+</html>

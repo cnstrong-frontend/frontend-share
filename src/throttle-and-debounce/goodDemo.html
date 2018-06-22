@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>goodDemo</title>
+    <style>
+        .wrap {
+            width: 100%;
+            height: 2000px;
+            background: #ececec;
+            color: black;
+            font-family: "微软雅黑";
+            text-align: center;
+            padding-top: 30px;
+        }
+        h1 {
+            font-size: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <h1>Good</h1>
+        请输入想要搜索的内容：<input type="text" class="input"/>
+    </div>
+</body>
+<script>
+    window.onload = function () {
+        let i = 0;
+        let input = document.getElementsByClassName("input")[0]
+        
+        document.onscroll = throttle(function () {
+            console.log(new Date() + " 函数被调用了" + ++i + "次")
+        }, 300)
+
+        //  查询
+        function query (value) {
+            console.log("发送ajax请求,查询" + value)
+        }
+        
+        //  搜索事件
+        input.onkeyup = debounce(function() {
+            query(this.value)
+        }, 500)
+
+        // 函数节流
+        function throttle (method, time) {
+            let cd = false
+            return function () {
+                if (cd) {
+                    return
+                }
+                let ctx = this
+                let args = arguments
+                method.apply(ctx, args)
+                cd = true
+                setTimeout( () => {cd = false}, time)
+            }
+        }
+        
+        // 函数去抖
+        function debounce (fn, time) {
+            let timer = undefined
+            return function () {
+                let ctx = this
+                let args = arguments
+                if (timer !== undefined) {
+                    window.clearTimeout(timer)
+                }
+                timer = setTimeout( () => {
+                    fn.apply(ctx, args)
+                }, time)
+            }
+        }
+       
+        //  函数去抖
+        function debounce1 (method, delay) {
+            let last = null
+            return function () {
+                let ctx = this
+                let args = arguments
+                clearTimeout(last)
+                last = setTimeout(function () {
+                    method.apply(ctx, args)
+                }, delay)
+            }
+        }
+    }
+</script>
+</html>
