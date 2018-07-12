@@ -6,7 +6,7 @@
 // @description  todo: 请用ERP路径url 全局替换 {{domain}}
 // @description  todo: 获取未读的邮件数量请修改 {{username}}
 // @author       Snger
-// @match        {{domain}}
+// @match        {{domain}}/Main/Main
 // @grant        GM_notification
 // @grant        GM_openInTab
 // @grant        $
