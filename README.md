@@ -10,6 +10,9 @@
 - [如何对现有ERP系统进行消息提醒增强 - Snger](./reference/add-notification-feature-to-ERP-system.pdf) - 20180516
 - [从 debug 中学习浏览器的怪异模式 - Snger](./src/learn-quirks-mode-from-debugging/learn-quirks-mode-from-debugging.md)
 - [函数节流和函数去抖](/src/throttle-and-debounce/throttle-and-debounce.md)
+- 2018-7-10
+- [前端规范化与vue入门介绍](./reference/刘圣杰-2018-7-10-前端规范化与vue入门介绍.pdf)
+
 
 ## 相关工具
 - [Marp: Markdown Presentation Writer](https://yhatt.github.io/marp/)
