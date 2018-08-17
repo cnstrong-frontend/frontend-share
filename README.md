@@ -10,8 +10,8 @@
 - [如何对现有ERP系统进行消息提醒增强 - Snger](./reference/add-notification-feature-to-ERP-system.pdf) - 20180516
 - [从 debug 中学习浏览器的怪异模式 - Snger](./src/learn-quirks-mode-from-debugging/learn-quirks-mode-from-debugging.md)
 - [函数节流和函数去抖](/src/throttle-and-debounce/throttle-and-debounce.md)
-- [前端gulp自动化分享](./reference/刘圣杰-2018-6-19-前端gulp自动化分享) - 2018-06-19
-- [前端规范化与vue入门介绍](./reference/刘圣杰-2018-7-10-前端规范化与vue入门介绍.pdf) - 2018-07-10
+- [前端gulp自动化分享](https://github.com/somewhile) - 2018-06-19
+- [前端规范化与vue入门介绍](https://github.com/somewhile) - 2018-07-10
 - [项目重构&按需加载相关](./reference/refactor-and-demandloading.pdf) - 2018-07-27
 
 
