@@ -6,6 +6,9 @@
 - 分享很可能被用于今后项目的技术。
 - 减少大家过滤垃圾技术信息时间。
 
+## 基础知识
+- 前端技能汇总 Frontend Knowledge Structure [github](https://github.com/JacksonTian/fks)
+
 ## 分享主题
 - [如何对现有ERP系统进行消息提醒增强 - Snger](./reference/add-notification-feature-to-ERP-system.pdf) - 20180516
 - [从 debug 中学习浏览器的怪异模式 - Snger](./src/learn-quirks-mode-from-debugging/learn-quirks-mode-from-debugging.md)
