@@ -109,7 +109,7 @@ document.documentElement['clientHeight'] = 1;
 ---
 ## 看看 MDN 对 Element.clientHeight 的解释
 - [MDN Web Docs > Element.clientHeight](https://developer.mozilla.org/en-US/docs/Web/API/Element/clientHeight)
-> The Element.clientHeight *read-only property* is zero for elements with no CSS or inline layout boxes, otherwise it's the inner height of an element in pixels, including padding but not the horizontal scrollbar height, border, or margin.
+> The Element.clientHeight **read-only property** is zero for elements with no CSS or inline layout boxes, otherwise it's the inner height of an element in pixels, including padding but not the horizontal scrollbar height, border, or margin.
 > clientHeight can be calculated as CSS height + CSS padding - height of horizontal scrollbar (if present).
 - 哦？是吗？
 
@@ -230,7 +230,7 @@ JSValue *DOMNode::getValueProperty(ExecState *exec, int token) const
 > [W3C -> TR/cssom-view -> dom-element-clientheight](https://www.w3.org/TR/cssom-view/#dom-element-clientheight)
 > The clientHeight attribute must run these steps:
 > 1. If the element has no associated CSS layout box or if the CSS layout box is inline, return zero.
-> 2. If the element is the root element and the element’s node document is not in quirks mode, or if the element is the HTML body element and the element’s node document is in quirks mode, return the viewport height excluding the size of a rendered scroll bar (if any).
+> 2. If the element is the root element and the element’s node document is not in quirks mode, or if the element is the HTML body element and the element’s node document is **in quirks mode**, return the viewport height excluding the size of a rendered scroll bar (if any).
 > 3. Return the height of the padding edge excluding the height of any rendered scrollbar between the padding edge and the border edge, ignoring any transforms that apply to the element and its ancestors.
 
 ---
@@ -249,7 +249,7 @@ JSValue *DOMNode::getValueProperty(ExecState *exec, int token) const
 ## 一起来 “面向谷歌编程”
 - [documentElement.clientHeight returns full content height](https://github.com/w3c/IntersectionObserver/issues/257)
 > [nekuz0r](https://github.com/nekuz0r) : Applying height: 100% on html element seems to make document.documentElement.clientHeight to return correct value.
-> [Yaffle](https://github.com/Yaffle) : you have no doctype declaration and so the "quirks mode". try to add: `<!DOCTYPE html>`
+> [Yaffle](https://github.com/Yaffle) : you have no doctype declaration and so the **"quirks mode"**. try to add: `<!DOCTYPE html>`
 - 当然，我不用 google，用的是 [DuckDuckGo](https://duckduckgo.com/)
 
 ## 那我们再深入看看 怪异模式 怎么影响代码的
