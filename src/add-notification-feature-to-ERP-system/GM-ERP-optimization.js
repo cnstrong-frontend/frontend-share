@@ -2,7 +2,7 @@
 // @name         add-notification-feature-to-ERP-system
 // @namespace    http://leke.cn/
 // @version      1.0
-// @description  施强ERP顶部信息更新提醒
+// @description  施强ERP顶部信息更新提醒(默认5分钟更新一次）
 // @description  todo: 请用ERP路径url 全局替换 {{domain}}
 // @description  todo: 获取未读的邮件数量请修改 {{username}}
 // @author       Snger
@@ -16,6 +16,7 @@
     'use strict';
 
     // Your code here...
+    var delay = 300000; // 默认更新时间为5分钟 - 300000毫秒
     var notifSound = new Audio();
 	notifSound.src = 'data:audio/ogg;base64,' +
         'T2dnUwACAAAAAAAAAAAhBwAAAAAAAF1ZYUIBHgF2b3JiaXMAAAAAAUSsAAAAAAAAgDgBAAAAAAC4' +
@@ -230,5 +231,5 @@
         setTopCount(tipTopList[0], 0);
         // notifyIt('h_todo_count');
         // notifyIt('h_email_count');
-    }, 15000);
+    }, delay);
 })();
