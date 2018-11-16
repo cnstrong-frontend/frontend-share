@@ -55,13 +55,18 @@
     addBtnsToPage(btnsConfig);
     if($('table.issues')){
         var issuesForUserList = $('table.issues .user>a.active');
-        var frontEndTeam = []; //名字不需要空格；
-        // var frontEndTeamStr = frontEndTeam.join('');
+        var frontEndTeam = ["陈奕迅", "王菲"]; //名字不需要空格；
+        var zykTeam = ["周星驰", "梁朝伟"];
+        var isTeamMember = function(team, userName){
+            return team.indexOf(userName) > -1 ? true : false;
+        };
         issuesForUserList.map(key => {
             var userName = issuesForUserList[key].innerText.trim().replace(/\s/g,'');
-            var isFETeamMember = frontEndTeam.indexOf(userName) > -1 ? true : false;
-            if(isFETeamMember){
+            if(isTeamMember(frontEndTeam, userName)){
                 issuesForUserList[key].parentNode.parentNode.style.backgroundColor='#FFFF84';
+            }
+            if(isTeamMember(zykTeam, userName)){
+                issuesForUserList[key].parentNode.parentNode.style.backgroundColor='rgb(255, 200, 100)';
             }
         });
     }
