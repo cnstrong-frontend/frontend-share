@@ -22,7 +22,6 @@
             'z-index': '3'
         });
         jq('#header').css({
-            'position': 'relative',
             'margin-top': '19px'
         });
         btns.map(btn => {
