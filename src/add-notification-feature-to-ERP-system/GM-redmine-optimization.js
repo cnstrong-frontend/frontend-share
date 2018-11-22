@@ -13,7 +13,18 @@
     'use strict';
 
     // Your code here...
+    let jq = $;
     var addBtnsToPage = btns => {
+        jq('#top-menu').css({
+            'position': 'fixed',
+            'top': '0',
+            'width': '100%',
+            'z-index': '3'
+        });
+        jq('#header').css({
+            'position': 'relative',
+            'margin-top': '19px'
+        });
         btns.map(btn => {
             var htmlLeftSide;
             var htmlRightSide;
@@ -29,9 +40,9 @@
                     <a href="${btn.href}">${btn.text}</a>
                 ${htmlRightSide}`;
             if(btn.insertType === "before"){
-                $( htmlTemp ).insertBefore( "#account" );
+                jq( htmlTemp ).insertBefore( "#account" );
             } else {
-                $( htmlTemp ).appendTo( "#top-menu > ul" );
+                jq( htmlTemp ).appendTo( "#top-menu > ul" );
             }
         })
     };
@@ -53,8 +64,8 @@
         insertType: "after"
     }];
     addBtnsToPage(btnsConfig);
-    if($('table.issues')){
-        var issuesForUserList = $('table.issues .user>a.active');
+    if(jq('table.issues')){
+        var issuesForUserList = jq('table.issues .user>a.active');
         var frontEndTeam = ["陈奕迅", "王菲"]; //名字不需要空格；
         var zykTeam = ["周星驰", "梁朝伟"];
         var isTeamMember = function(team, userName){
