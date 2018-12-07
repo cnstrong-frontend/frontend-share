@@ -198,7 +198,9 @@
             weekly: weeklyTemp,
             bugList: bugList
         };
-        console.dir(result);
+        // console.dir(result);
+        let weeklyLog = `\n${weeklyTemp}`;
+        console.log(weeklyLog);
         // 按进度分类；
         bugList.test.progress = getProgressList('test', bugList.test.list);
         bugList.code.progress = getProgressList('code', bugList.code.list);
@@ -206,13 +208,14 @@
         gTask['前端'].progress = getProgressList('code', gTask['前端'].list);
         gTask['Python'].progress = getProgressList('code', gTask['Python'].list);
         gTask['测试'].progress = getProgressList('test', gTask['测试'].list);
-        let bugLog = `本次计划处理的BUG总数：${bugList.code.list.length}个,其中测试通过${bugList.test.progress['测试通过'].length}个,开发完成${bugList.code.progress['开发完成'].length}个,开发中${bugList.code.progress['玩命开发中'].length}个,未开始${bugList.code.progress['未开始'].length}个:\n`;
-        for(let i=0,j=bugList.code.list.length-1; j>-1; i++,j--){
-            let bug = bugList.code.list[j];
-            bugLog += `${Number(i+1)}. 【${bug.column}】${bug.taskCont}\n`;
+        if(bugList.code.list.length) {
+            let bugLog = `本次计划处理的BUG总数：${bugList.code.list.length}个,其中测试通过${bugList.test.progress['测试通过'].length}个,开发完成${bugList.code.progress['开发完成'].length}个,开发中${bugList.code.progress['玩命开发中'].length}个,未开始${bugList.code.progress['未开始'].length}个:\n`;
+            for(let i=0,j=bugList.code.list.length-1; j>-1; i++,j--){
+                let bug = bugList.code.list[j];
+                bugLog += `${Number(i+1)}. 【${bug.column}】${bug.taskCont}\n`;
+            }
+            console.log(`\n${bugLog}`);
         }
-        let log = `\n${weeklyTemp}\n${bugLog}`;
-        console.log(log);
     }
     //getTaskList();
     window.getTaskList = getTaskList;
