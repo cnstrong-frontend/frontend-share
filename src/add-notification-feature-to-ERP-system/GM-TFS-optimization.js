@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         TFS优化
 // @namespace    http://leke.cn
-// @version      0.6
-// @description  目前版本是针对资源库定制的（资源库迭代，每个开发任务会创建对应的测试任务），后续有时间会创建其他版本；
+// @version      0.7
+// @description  目前版本提供3类统计数据： 1.纯进度，按进度顺序； 2.纯进度，按优先顺序； 3.综合，区分任务所属职能部门，并且每一个开发任务创建对应的测试任务；
 // @author       Snger
 // @match        http://192.168.20.67:8080/tfs/DefaultCollection/*/*/_backlogs/TaskBoard/*
 // @grant        none
@@ -64,18 +64,20 @@
             let progressList = {};
             let progressTypeArr = [];
             if(bugType === 'code'){
-                progressTypeArr = ['未开始','玩命开发中','开发完成'];
+                progressTypeArr = ['未开始','玩命开发中','开发完成','已发布'];
                 progressList = {
                     '未开始': [],
                     '玩命开发中': [],
                     '开发完成': [],
+                    '已发布': []
                 };
             } else if(bugType === 'test'){
-                progressTypeArr = ['未开始','玩命测试中','测试通过'];
+                progressTypeArr = ['未开始','玩命测试中','测试通过','已发布'];
                 progressList = {
                     '未开始': [],
                     '玩命测试中': [],
                     '测试通过': [],
+                    '已发布': []
                 };
             }
             for(let i=0; i<bugList.length; i++){
@@ -189,19 +191,23 @@
         let allDoneTaskLeng = codeDoneTaskLeng + testDoneTaskLeng;
         let codingTaskLeng = progressList['玩命开发中'].length;
         let testingTaskLeng = progressList['玩命测试中'].length;
-        let weeklyTemp = `【开发中】“${boardTitle}”, 总任务${allTaskLeng}个(开发${allCoderTaskLeng}个，测试${testerTaskLeng}个),其中开发完成(${codeDoneTaskLeng}/${allCoderTaskLeng}),开发中(${codingTaskLeng}/${allCoderTaskLeng-codeDoneTaskLeng}),测试通过(${testDoneTaskLeng}/${testerTaskLeng}),测试中(${testingTaskLeng}/${testerTaskLeng-testDoneTaskLeng}),计划发布时间${dateSet[1]};`;
+        let publishedTaskLeng = progressList['已发布'].length;
+        let waitingTaskLeng = progressList['未开始'].length;
+        let weeklyTemp1 = `\n纯进度，按进度顺序：\n【开发中】“${boardTitle}”, 总任务${allTaskLeng}个,其中未开始${waitingTaskLeng}个,开发中${codingTaskLeng}个,开发完成${codeDoneTaskLeng}个,测试中${testingTaskLeng}个,测试通过${testDoneTaskLeng}个,已发布${testDoneTaskLeng}个,计划发布时间${dateSet[1]};`;
+        let weeklyTemp2 = `\n\n纯进度，按优先顺序：\n【开发中】“${boardTitle}”, 总任务${allTaskLeng}个,其中已发布${testDoneTaskLeng}个(${publishedTaskLeng}/${allTaskLeng}),测试通过${testDoneTaskLeng}个(${testDoneTaskLeng}/${allTaskLeng-publishedTaskLeng}),测试中${testingTaskLeng}个(${testingTaskLeng}/${allTaskLeng-publishedTaskLeng-testDoneTaskLeng}),开发完成${codeDoneTaskLeng}个(${codeDoneTaskLeng}/${allTaskLeng-publishedTaskLeng-testDoneTaskLeng}),开发中${codingTaskLeng}个(${codingTaskLeng}/${allTaskLeng-publishedTaskLeng-testDoneTaskLeng-codeDoneTaskLeng}),未开始${waitingTaskLeng}个,计划发布时间${dateSet[1]};`;
+        let weeklyTemp3 = `\n\n综合，区分任务所属职能部门，并且每一个开发任务创建对应的测试任务：\n【开发中】“${boardTitle}”, 总任务${allTaskLeng}个(开发${allCoderTaskLeng}个，测试${testerTaskLeng}个),其中开发完成(${codeDoneTaskLeng}/${allCoderTaskLeng}),开发中(${codingTaskLeng}/${allCoderTaskLeng-codeDoneTaskLeng}),测试通过(${testDoneTaskLeng}/${testerTaskLeng}),测试中(${testingTaskLeng}/${testerTaskLeng-testDoneTaskLeng}),计划发布时间${dateSet[1]};`;
         let result = {
             boardTitle: boardTitle,
             errList: errList,
             gTask: gTask,
             progressList: progressList,
-            weekly: weeklyTemp,
+            weekly: weeklyTemp3,
             bugList: bugList
         };
         // console.dir(result);
-        let weeklyLog = `\n${weeklyTemp}`;
+        let weeklyLog = `\n${weeklyTemp1}${weeklyTemp2}${weeklyTemp3}`;
         console.log(weeklyLog);
-        // 按进度分类；
+        // 按职能部门分类；
         bugList.test.progress = getProgressList('test', bugList.test.list);
         bugList.code.progress = getProgressList('code', bugList.code.list);
         gTask['Java'].progress = getProgressList('code', gTask['Java'].list);
@@ -209,7 +215,7 @@
         gTask['Python'].progress = getProgressList('code', gTask['Python'].list);
         gTask['测试'].progress = getProgressList('test', gTask['测试'].list);
         if(bugList.code.list.length) {
-            let bugLog = `本次计划处理的BUG总数：${bugList.code.list.length}个,其中测试通过${bugList.test.progress['测试通过'].length}个,开发完成${bugList.code.progress['开发完成'].length}个,开发中${bugList.code.progress['玩命开发中'].length}个,未开始${bugList.code.progress['未开始'].length}个:\n`;
+            let bugLog = `\n本次计划处理的BUG总数：${bugList.code.list.length}个,其中开发中${bugList.code.progress['玩命开发中'].length}个,开发完成${bugList.code.progress['开发完成'].length}个，测试通过${bugList.test.progress['测试通过'].length}个,未开始${bugList.code.progress['未开始'].length}个:\n`;
             for(let i=0,j=bugList.code.list.length-1; j>-1; i++,j--){
                 let bug = bugList.code.list[j];
                 bugLog += `${Number(i+1)}. 【${bug.column}】${bug.taskCont}\n`;
