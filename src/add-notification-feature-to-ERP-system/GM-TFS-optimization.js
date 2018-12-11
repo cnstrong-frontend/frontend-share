@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TFS优化
 // @namespace    http://leke.cn
-// @version      0.7
+// @version      0.8
 // @description  目前版本提供3类统计数据： 1.纯进度，按进度顺序； 2.纯进度，按优先顺序； 3.综合，区分任务所属职能部门，并且每一个开发任务创建对应的测试任务；
 // @author       Snger
 // @match        http://192.168.20.67:8080/tfs/DefaultCollection/*/*/_backlogs/TaskBoard/*
@@ -193,9 +193,9 @@
         let testingTaskLeng = progressList['玩命测试中'].length;
         let publishedTaskLeng = progressList['已发布'].length;
         let waitingTaskLeng = progressList['未开始'].length;
-        let weeklyTemp1 = `\n纯进度，按进度顺序：\n【开发中】“${boardTitle}”, 总任务${allTaskLeng}个,其中未开始${waitingTaskLeng}个,开发中${codingTaskLeng}个,开发完成${codeDoneTaskLeng}个,测试中${testingTaskLeng}个,测试通过${testDoneTaskLeng}个,已发布${testDoneTaskLeng}个,计划发布时间${dateSet[1]};`;
-        let weeklyTemp2 = `\n\n纯进度，按优先顺序：\n【开发中】“${boardTitle}”, 总任务${allTaskLeng}个,其中已发布${testDoneTaskLeng}个(${publishedTaskLeng}/${allTaskLeng}),测试通过${testDoneTaskLeng}个(${testDoneTaskLeng}/${allTaskLeng-publishedTaskLeng}),测试中${testingTaskLeng}个(${testingTaskLeng}/${allTaskLeng-publishedTaskLeng-testDoneTaskLeng}),开发完成${codeDoneTaskLeng}个(${codeDoneTaskLeng}/${allTaskLeng-publishedTaskLeng-testDoneTaskLeng}),开发中${codingTaskLeng}个(${codingTaskLeng}/${allTaskLeng-publishedTaskLeng-testDoneTaskLeng-codeDoneTaskLeng}),未开始${waitingTaskLeng}个,计划发布时间${dateSet[1]};`;
-        let weeklyTemp3 = `\n\n综合，区分任务所属职能部门，并且每一个开发任务创建对应的测试任务：\n【开发中】“${boardTitle}”, 总任务${allTaskLeng}个(开发${allCoderTaskLeng}个，测试${testerTaskLeng}个),其中开发完成(${codeDoneTaskLeng}/${allCoderTaskLeng}),开发中(${codingTaskLeng}/${allCoderTaskLeng-codeDoneTaskLeng}),测试通过(${testDoneTaskLeng}/${testerTaskLeng}),测试中(${testingTaskLeng}/${testerTaskLeng-testDoneTaskLeng}),计划发布时间${dateSet[1]};`;
+        let weeklyTemp1 = `\n1.纯进度，按进度顺序：\n【开发中】“${boardTitle}”, 总任务${allTaskLeng}个,其中未开始${waitingTaskLeng}个,开发中${codingTaskLeng}个,开发完成${codeDoneTaskLeng}个,测试中${testingTaskLeng}个,测试通过${testDoneTaskLeng}个,已发布${publishedTaskLeng}个,计划发布时间${dateSet[1]};`;
+        let weeklyTemp2 = `\n\n2.纯进度，按优先顺序：\n【开发中】“${boardTitle}”, 总任务${allTaskLeng}个,其中已发布${publishedTaskLeng}个(${publishedTaskLeng}/${allTaskLeng}),测试通过${testDoneTaskLeng}个(${testDoneTaskLeng}/${allTaskLeng-publishedTaskLeng}),测试中${testingTaskLeng}个(${testingTaskLeng}/${allTaskLeng-publishedTaskLeng-testDoneTaskLeng}),开发完成${codeDoneTaskLeng}个(${codeDoneTaskLeng}/${allTaskLeng-publishedTaskLeng-testDoneTaskLeng-testingTaskLeng}),开发中${codingTaskLeng}个(${codingTaskLeng}/${allTaskLeng-publishedTaskLeng-testDoneTaskLeng-testingTaskLeng-codeDoneTaskLeng}),未开始${waitingTaskLeng}个,计划发布时间${dateSet[1]};`;
+        let weeklyTemp3 = `\n\n3.综合，区分任务所属职能部门，并且每一个开发任务创建对应的测试任务：\n【开发中】“${boardTitle}”, 总任务${allTaskLeng}个(开发${allCoderTaskLeng}个，测试${testerTaskLeng}个),其中开发完成(${codeDoneTaskLeng}/${allCoderTaskLeng}),开发中(${codingTaskLeng}/${allCoderTaskLeng-codeDoneTaskLeng}),测试通过(${testDoneTaskLeng}/${testerTaskLeng}),测试中(${testingTaskLeng}/${testerTaskLeng-testDoneTaskLeng}),计划发布时间${dateSet[1]};`;
         let result = {
             boardTitle: boardTitle,
             errList: errList,
