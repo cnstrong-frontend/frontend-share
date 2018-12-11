@@ -19,7 +19,7 @@
     // Your code here...
     const jq = $;
     var delay = 300000; // 默认更新时间为5分钟 - 300000毫秒
-    var isPlaySound = true; // 播放声音设置为 false，播放则为 true；
+    var isPlaySound = true; // 不播放声音为 false，播放则为 true；
     // 设置需要提醒的内容，不需要的可以注释或删除
     var tipTopList = [
         { objId: "h_todo_count", url: "/main/GetTodoCount" }, //待办
