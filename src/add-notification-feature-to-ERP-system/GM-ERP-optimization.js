@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         add-notification-feature-to-ERP-system
 // @namespace    http://leke.cn/
-// @version      1.0
+// @version      1.1
 // @description  施强ERP顶部信息更新提醒(默认5分钟更新一次）
 // @description  todo: 请用ERP路径url 全局替换 {{domain}}
+// @description  todo: 若不需要邮件提醒，请注释 27行
 // @description  todo: 获取未读的邮件数量请修改 {{username}}
 // @author       Snger
 // @match        {{domain}}/Main/Main
@@ -16,7 +17,18 @@
     'use strict';
 
     // Your code here...
+    const jq = $;
     var delay = 300000; // 默认更新时间为5分钟 - 300000毫秒
+    var isPlaySound = true; // 播放声音设置为 false，播放则为 true；
+    // 设置需要提醒的内容，不需要的可以注释或删除
+    var tipTopList = [
+        { objId: "h_todo_count", url: "/main/GetTodoCount" }, //待办
+        { objId: "h_remind_count", url: "/main/GetRemindCount" }, //提醒
+        { objId: "h_email_count", url: "/Main/GetUnReadMailCount" }, //邮箱
+        // { objId: "h_Subordinatetodo_count", url: "/main/GetSubordinateTodoCount" }, //下属过期待办
+        // { objId: "h_verify_count", url: "/main/GetVerifyCount" } //待提交的档案审批
+    ];
+    // tipTopList.splice(3, 2); // 这行代码对用户不友好，暂不使用；
     var notifSound = new Audio();
 	notifSound.src = 'data:audio/ogg;base64,' +
         'T2dnUwACAAAAAAAAAAAhBwAAAAAAAF1ZYUIBHgF2b3JiaXMAAAAAAUSsAAAAAAAAgDgBAAAAAAC4' +
@@ -138,15 +150,6 @@
 		'7EMwYHF8IXaMnLakDtzukfmSXwHCzkuSZMnzIrdSBjZ52C5uOoMNJUfnZ58AHpbc/CgfLIPShg1e' +
 		'8Mw0UggAAAAAY02wrv2ssaoBRhMHkS8fmQOr9scjodYT7drbewR6YusJ2TWuNKTGrr3L2DCaENnL' +
 		'OURqKmc0/b70ssCT4ZWzqajByiq8LDwz9K316Z5fFqCdfWt9Z3tz4T3TN5oIoxG8fnjMJM0AAA==' ;
-    // tipTopList 自定义
-    var tipTopList = [
-        { objId: "h_todo_count", url: "/main/GetTodoCount" },
-        { objId: "h_remind_count", url: "/main/GetRemindCount" },
-        { objId: "h_email_count", url: "/Main/GetUnReadMailCount" },
-        { objId: "h_Subordinatetodo_count", url: "/main/GetSubordinateTodoCount" },
-        { objId: "h_verify_count", url: "/main/GetVerifyCount" }
-    ];
-    tipTopList.splice(3, 2);
     // 顶部消息更新时，发出浏览器消息提醒；
     function setTopCount(tipTop, n) {
         if (n >= tipTopList.length) { return; }
@@ -154,29 +157,35 @@
         if(tipTop.objId==='h_email_count'){
             data = {fullName:"{{username}}"};
         }
-        $.post(tipTop.url, data, function (d) {
-            if(d=="nosession") {
+        jq.post(tipTop.url, data, function (resp) {
+            if(resp=="nosession") {
                 alert("请重新登录");
                 window.location.href="{{domain}}/Login/Login";
             }else{
-                if(d=="0"){
-                    $("#" + tipTop.objId).parent().removeAttr("class");
+                if(resp=="0"){
+                    jq("#" + tipTop.objId).parent().removeAttr("class");
                     /*if(n > 1) {
                         $("#" + tipTop.objId).parent().parent().hide();
                     }*/
                 }else{
-                    $("#" + tipTop.objId).parent().parent().show();
-                    $("#" + tipTop.objId).parent().attr("class", "head-sign-con");
+                    jq("#" + tipTop.objId).parent().parent().show();
+                    jq("#" + tipTop.objId).parent().attr("class", "head-sign-con");
                     notifyIt(tipTop.objId);
+                    if(tipTop.objId==='h_Subordinatetodo_count'){
+                        jq('#h_todo2').show(); //展示下属过期待办
+                    } else if(tipTop.objId==='h_Subordinatetodo_count'){
+                        jq('#h_verify_count').show(); //展示待提交的档案审批
+                    }
                 }
-                $("#" + tipTop.objId).text(d);
+                jq("#" + tipTop.objId).text(resp);
                 n++;
                 setTopCount(tipTopList[n], n);
             }
         });
     }
-    // 浏览器提醒
+    // 浏览器弹窗提醒并播放声音
     function notifyIt(typeId){
+        // 这边的设置只用于弹窗的内容展示，如果不需要邮件提醒，请在注释27行；
         var notificationSetting = {
             'h_todo_count': {
                 text: '待办事项',
@@ -222,13 +231,16 @@
             }
         };
         window.document.title='有未读消息，请查收';
-        notifSound.play();
+        if(isPlaySound) {
+            notifSound.play();
+        }
         GM_notification(notificationDetails);
     }
     // 定时刷新
     window.setInterval(function(){
         // 顶部消息更新 - 提醒，待办，邮件
         setTopCount(tipTopList[0], 0);
+        // 测试代码
         // notifyIt('h_todo_count');
         // notifyIt('h_email_count');
     }, delay);
