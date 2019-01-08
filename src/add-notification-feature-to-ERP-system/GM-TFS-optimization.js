@@ -52,7 +52,8 @@
             'Java': {list: [], progress: {}},
             '前端': {list: [], progress: {}},
             '测试': {list: [], progress: {}},
-            'Python': {list: [], progress: {}}
+            'Python': {list: [], progress: {}},
+            'C++': {list: [], progress: {}}
         };
         const errList = [];
         const bugList = {
@@ -123,12 +124,13 @@
                             column: itemColumn,
                             resolvedName: resolvedName
                         };
-                        let taskRegexp = /【(Java|java|测试|前端|Python|python)】\s?(((Bug|bug)(\s#\d{3,7})?)?.*$)/g;
+                        let taskRegexp = /【(Java|java|测试|前端|Python|python|C\+\+|c\+\+)】\s?(((Bug|bug)(\s#\d{3,7})?)?.*$)/g;
                         let taskMatchArr = taskRegexp.exec(taskDetail);
                         if(taskMatchArr){
                             let taskType = taskMatchArr[1];
                             taskType = taskType=='java' ? 'Java' : taskType;
                             taskType = taskType=='python' ? 'Python' : taskType;
+                            taskType = taskType=='c++' ? 'C++' : taskType;
                             itemDetail.taskType = taskType;
                             itemDetail.taskCont = taskMatchArr[2];
                             if(resolvedName === 'Unassigned' || resolvedName === '未指派'){
@@ -149,6 +151,9 @@
                                     break;
                                 case 'Python':
                                     gTask['Python'].list.push(itemDetail);
+                                    break;
+                                case 'C++':
+                                    gTask['C++'].list.push(itemDetail);
                                     break;
                             }
                             let isBug = taskMatchArr[3] ? true : false;
@@ -187,9 +192,10 @@
         });
         let javaTaskLeng = gTask['Java'].list.length;
         let pythonTaskLeng = gTask['Python'].list.length;
+        let cppTaskLeng = gTask['C++'].list.length;
         let feTaskLeng = gTask['前端'].list.length;
         let testerTaskLeng = gTask['测试'].list.length;
-        let allCoderTaskLeng = javaTaskLeng + feTaskLeng + pythonTaskLeng;
+        let allCoderTaskLeng = javaTaskLeng + feTaskLeng + pythonTaskLeng + cppTaskLeng;
         let allTaskLeng = allCoderTaskLeng + testerTaskLeng;
         let testDoneTaskLeng = progressList['测试通过'].length;
         let codeDoneTaskLeng = progressList['开发完成'].length;
@@ -218,6 +224,7 @@
         gTask['Java'].progress = getProgressList('code', gTask['Java'].list);
         gTask['前端'].progress = getProgressList('code', gTask['前端'].list);
         gTask['Python'].progress = getProgressList('code', gTask['Python'].list);
+        gTask['C++'].progress = getProgressList('code', gTask['C++'].list);
         gTask['测试'].progress = getProgressList('test', gTask['测试'].list);
         if(bugList.code.list.length) {
             let bugLog = `\n本次计划处理的BUG总数：${bugList.code.list.length}个,其中开发中${bugList.code.progress['玩命开发中'].length}个,开发完成${bugList.code.progress['开发完成'].length}个，测试通过${bugList.test.progress['测试通过'].length}个,未开始${bugList.code.progress['未开始'].length}个:\n`;
