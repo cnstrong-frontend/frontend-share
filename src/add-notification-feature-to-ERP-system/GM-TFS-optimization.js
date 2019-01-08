@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TFS优化
 // @namespace    http://leke.cn
-// @version      0.9
+// @version      1.0
 // @description  目前版本提供3类统计数据： 1.纯进度，按进度顺序； 2.纯进度，按优先顺序； 3.综合，区分任务所属职能部门，并且每一个开发任务创建对应的测试任务；
 // @description  todo: 1.页面内跳转，有时油猴脚本没有触发，需要刷新页面；
 // @author       Snger
